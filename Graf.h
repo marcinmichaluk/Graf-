@@ -1,19 +1,14 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
 class graf
 {
-private:
-	string nazwa;
 public:
+	string nazwa;
+	graf * next=nullptr ;
 	graf(string="0");
 	~graf();
-	void wyswietl();
-	void dodaj_wierzcholek();
-	void usun_wierzcholek();
 };
-
 
 class vertex
 {
@@ -25,4 +20,17 @@ public:
 	void dodaj_wektor();
 	void usun_wektor();
 	void wyswietl();
+};
+
+class lista
+{
+public:
+	graf* first = NULL;
+	graf* last = NULL;
+
+	graf* GetPosition(string position);
+	void dodaj_wierzcholek(string nazwa);
+	void wyswietl();
+	int ile();
+	void usun_wierzcholek(graf* );
 };

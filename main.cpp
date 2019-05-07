@@ -23,16 +23,16 @@ int main()
 		cout << endl;
 		if (ilosc > 20)
 		{
-			cout << "Jestes pewny, ze chcesz stworzyc tyle wierzcholkow ? :) " << endl<<"Wybierz  y[YES] lub n[NO]"<<endl;
+			cout << "Jestes pewny, ze chcesz stworzyc tyle wierzcholkow? :) " << endl<<"Wybierz  y[YES] lub n[NO]"<<endl;
 			char odp = NULL;
 			cin >> odp;
 			if (odp != 'y' && odp != 'n')
 			{
-				cout << "wpisales niewlasciwy znak" << endl<<"sproboj jeszcze raz " <<endl;
+				cout << "wpisales niewlasciwy znak " << endl<<"sproboj jeszcze raz " <<endl;
 			}
 			if (odp == 'y')
 			{
-				cout << "no dobra, to powodzenia " << endl;;
+				cout << "no dobra, to powodzenia  " << endl;;
 				break;
 			}
 			if (odp == 'n')
@@ -50,20 +50,18 @@ int main()
 			break;
 		}
 	}
-	graf* w = new graf[ilosc];
+	string nazwa;
+	lista* nlist = new lista();
 	string n;
 	for (int i = 0; i < ilosc; i++)
 	{
-		cout << "podaj nazwe wierzcholka " << i+1 << endl;
-		cin >> n;
-		w[i] = graf(n);
+		cout << "Podaj nazwe wierzchilka" << endl;
+		cin >> nazwa;
+		nlist->dodaj_wierzcholek(nazwa);
 	}
 	cout << "stworzono " << ilosc << " wierzcholkow" << endl;
-	for (int i = 0; i < ilosc; i++)
-	{
-		w[i].wyswietl();
-	}
-	cout << "teraz nastapi laczenie wierzcholkow( dodawanie wektorow) " << endl << "Podaj poczatkowa ilosc wektorow" << endl;
+		nlist->wyswietl();
+	/*cout << "teraz nastapi laczenie wierzcholkow( dodawanie wektorow) " << endl << "Podaj poczatkowa ilosc wektorow" << endl;
 	int ile_wekt;
 	cin >> ile_wekt;
 	string pocz, kon;
@@ -83,9 +81,51 @@ int main()
 	{
 		cout << "wektor " << i+1 << endl;
 		x[i].wyswietl();
+	}*/
+	int operacja = 0;
+	while (operacja > -2)
+	{
+		cout << "Wybierz operacjê na grafie " << endl << "Nacisnij 1 aby dodac wierzcholek" << endl << "2 aby usunac wierzcholek" << endl << "3 aby dodac wektor" << endl << "4 aby usunac wierzcholek" << endl 
+			<< "5 aby wyswietlic wierzcholki" << "6 aby wyswietlic wektory"<<endl<<"7 aby zakonczyc program"<<endl;
+		cin >> operacja;
+		if (operacja == 1)
+		{
+			cout << "tu jestes" << endl;
+			nlist->wyswietl();
+		}
+		if (operacja == 3)
+		{
+			cout << "Podaj nazwe wierzcholka, ktory chcesz usunac"<<endl;
+			cin >> nazwa;
+			graf* n = nlist->GetPosition(nazwa);
+			nlist->usun_wierzcholek(n);
+		}
+		/*if (operacja == 2)
+		{
+			nlist->dodaj_wierzcholek();
+		}*/
+		/*if (operacja == 4)
+		{
+			x[5].usun_wektor();
+		}
+		if (operacja == 5)
+		{
+
+		}
+		if (operacja == 6)
+		{
+
+		}*/
+		if (operacja == 7)
+		{
+			break;
+		}
+		else
+		{
+			cout << endl << "podano nieprawidlowa operacje " << endl << "wybierz liczbe od 1 do 5" << endl;
+		}
 	}
 	system("pause");
-	delete[] w;
-	delete[] x;
+	delete nlist;
 	return 0;
 }
