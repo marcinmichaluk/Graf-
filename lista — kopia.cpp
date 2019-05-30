@@ -1,31 +1,22 @@
-#include <iostream>
-#include <string>
 #include "Graf.h"
+#pragma once
+#pragma comment(lib, "Graf.h")
+#pragma once
+#pragma comment(lib, "vertex.h")
+#pragma once
+#pragma comment(lib, "lista.h")
+#include <iostream>
+#include<string>
+#include<cstdlib>
+#include<stack>
+
 using namespace std;
 
-graf::graf(string n)
-{
-	nazwa = n;
-	this->next = nullptr;
-}
-graf::~graf()
-{
-	next = nullptr;
-}
-vertex::vertex(string n1,string n2)
-{
-	nazwa1 = n1;
-	nazwa2 = n2;
-}
-vertex::~vertex()
-{
-
-}
 graf* lista::GetPosition(string naz)
 {
 	graf* temp = this->first;
 	int rozmiar = ile();
-	for (int i = 1; i <rozmiar ; i++)
+	for (int i = 0; i < rozmiar; i++)
 	{
 		if (temp->nazwa == naz)
 		{
@@ -54,7 +45,7 @@ void lista::dodaj_wierzcholek(string nazwa)
 void lista::wyswietl()
 {
 	graf* pomoc = this->first;
-	while(pomoc != nullptr)
+	while (pomoc != nullptr)
 	{
 		cout << "Nazwa wierzcholka:  " << pomoc->nazwa << endl;
 		pomoc = pomoc->next;
@@ -81,6 +72,7 @@ void lista::usun_wierzcholek(graf* adres)
 		if (pomoc2->next == nullptr)
 		{
 			pomoc->next = nullptr;
+			this->last = pomoc;
 			break;
 		}
 		if (pomoc->next == adres)
@@ -107,21 +99,21 @@ void lista::dodaj_wektor(string n1, string n2)
 {
 	bool a = 0;
 	bool b = 0;
-	bool mozna=0;
+	bool mozna = 0;
 	graf* pomoc = this->first;
-	for (int i = 0; i < 2;)
+	for(int i=0;i<1;)
 	{
 		if (pomoc == nullptr)
 		{
 			if (a == 0)
 			{
 				cout << "Wierzcholek numer 1 nie istnieje " << endl;
-				mozna == 0;
+				mozna = 0;
 			}
 			if (b == 0)
 			{
 				cout << "Wierzcholek numer 2 nie istnieje " << endl;
-				mozna == 0;
+				mozna = 0;
 			}
 			break;
 		}
@@ -140,33 +132,48 @@ void lista::dodaj_wektor(string n1, string n2)
 		}
 		pomoc = pomoc->next;
 	}
-	if(mozna==1)
+	vertex* pomoc2 = this->f;
+	while(pomoc2!=nullptr)
+	{
+		if (pomoc2 == nullptr) break;
+		if ((pomoc2->nazwa1 == n1 && pomoc2->nazwa2 == n2) || (pomoc2->nazwa1 == n2 && pomoc2->nazwa2 == n1))
+		{
+			cout << "Podany wektor juz istnieje. " << endl;
+			mozna = 0;
+		}
+		pomoc2 = pomoc2->nast;
+	}
+	if (mozna == 1)
 	{
 		vertex* x = new vertex(n1, n2);
 		if (this->f == nullptr || this->l == nullptr)
 		{
-			this->f = this->l = x;
+			this->f = x;
+			this->l = x;
 		}
-		this->l->nast = x;
-		this->l = x;
+		else
+		{
+			this->l->nast = x;
+			this->l = x;
+		}
 	}
 }
 void lista::wyswietl_wektory()
 {
 	vertex* pomoc1 = this->f;
-	for(int i=1; pomoc1 != nullptr; i++)
+	for (int i = 1; pomoc1 != nullptr; i++)
 	{
-		cout <<"Wektor nr "<<i<< " Nazwa wierzcholka poczatkowego:  " << pomoc1->nazwa1 <<" Nazwa wierzcholka koncowego: "<<pomoc1->nazwa2<< endl;
+		cout << "Wektor nr " << i << " Nazwa wierzcholka poczatkowego:  " << pomoc1->nazwa1 << " Nazwa wierzcholka koncowego: " << pomoc1->nazwa2 << endl;
 		pomoc1 = pomoc1->nast;
 	}
 }
-vertex* lista::GetPosition(string naz,string naz2)
+vertex* lista::GetPosition(string naz, string naz2)
 {
 	vertex* pomoc = this->f;
 	int rozmiar = ile_wektorow();
-	for (int i = 1; i <rozmiar+1; i++)
+	for (int i = 1; i < rozmiar + 1; i++)
 	{
-		if (pomoc->nazwa1== naz && pomoc->nazwa2==naz2)
+		if (pomoc->nazwa1 == naz && pomoc->nazwa2 == naz2)
 		{
 			return pomoc;
 		}
@@ -210,6 +217,12 @@ void lista::usun_wektor(vertex* adres)
 			delete pomoc;
 			break;
 		}
+		if (pomoc2->nast == nullptr)
+		{
+			this->l = nullptr;
+			pomoc->nast = nullptr;
+			break;
+		}
 		if (pomoc == nullptr)
 		{
 			cout << "podano nieprawidlowa nazwe wiercholka" << endl;
@@ -226,17 +239,17 @@ void lista::usun_wektor(vertex* adres)
 bool lista::czy_mozna(string a)
 {
 	bool czy_mozna;
+	vertex* pomoc = this->f;
 	for (int i = 0; i > -2;)
 	{
-		vertex* pomoc = this->f;
-		if (pomoc->nazwa1 == a || pomoc->nazwa2==a)
-		{
-			cout << "Nie mozna usunac wierzcholka, poniewaz jest on polaczony wektorem." << endl << "najpierw usun polaczenie wektorami" << endl;
-			return czy_mozna = 1;
-		}
 		if (pomoc == nullptr)
 		{
 			break;
+		}
+		if (pomoc->nazwa1 == a || pomoc->nazwa2 == a)
+		{
+			cout << "Nie mozna usunac wierzcholka, poniewaz jest on polaczony wektorem." << endl << "najpierw usun polaczenie wektorami" << endl;
+			return czy_mozna = 1;
 		}
 		pomoc = pomoc->nast;
 	}
@@ -260,3 +273,23 @@ bool lista::czy_mozna_wierzcholek(string b)
 	}
 	return a;
 }
+//void czy_spojny(int n,int m, vertex* g)
+////{
+////	bool* visited = new bool[n];
+////	vertex* pomoc = g;
+////	for (int i = 0; i < n; i++)
+////	{
+////		visited[i] = 0;
+////	}
+////	stack<bool>stos;
+////	int vc = 0; //vertex count 
+////	int v = 0;//vertex
+////	stos.push(0);
+////	visited[0] = 1;
+////	while (stos.empty() == 0)
+////	{
+////		v = stos.top();
+////		stos.pop();
+////		vc++;
+////	}
+////}

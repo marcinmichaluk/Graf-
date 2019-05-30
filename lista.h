@@ -1,24 +1,7 @@
+#pragma once
 #include <iostream>
 #include <string>
-using namespace std;
-class graf
-{
-public:
-	string nazwa;
-	graf * next=nullptr ;
-	graf(string="0");
-	~graf();
-};
-
-class vertex
-{
-public:
-	string nazwa1;
-	string nazwa2;
-	vertex* nast = nullptr;
-	vertex(string nazwa1,string nazwa2);
-	~vertex();
-};
+using namespace std; 
 
 class lista
 {
@@ -35,9 +18,10 @@ public:
 	int ile();
 	int ile_wektorow();
 	void usun_wierzcholek(graf*);
-	void dodaj_wektor(string , string );
+	void dodaj_wektor(string , string);
 	void usun_wektor(vertex*);
 	void wyswietl_wektory();
 	bool czy_mozna(string);
 	bool czy_mozna_wierzcholek(string);
+	void czy_spojny(int, int, graf*);
 };
